@@ -50,6 +50,7 @@ con.connect(function(err) {
                 " `idingredients` INT NOT NULL AUTO_INCREMENT,\n" +
                 " `name` VARCHAR(45) NULL,\n" +
                 " `timeCook` INT NULL,\n" +
+                " `imageSrc` VARCHAR(100) NULL,\n" +
                 "  PRIMARY KEY (`idingredients`));", function (err) {
                 if (err) throw(err)
             })
