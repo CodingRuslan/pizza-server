@@ -1,7 +1,7 @@
 const con = require('../db');
 
 const Order = function (order) {
-    this.clientId = order.clientId;
+    this.userId = order.userId;
     this.cookId = order.cookId;
     this.orderDone = order.orderDone;
     this.timeCooking = order.timeCooking;
@@ -44,8 +44,8 @@ Order.getOrderById = function(orderId, result) {
     });
 };
 Order.updateById = function (id, order, result) {
-    con.query("UPDATE clientOrder SET `clientId` = ?, `cookId` = ?, `orderDone` = ?, `timeCooking` = ? WHERE idclientOrder = ?",
-        [order.clientId, order.cookId, order.orderDone, order.timeCooking, id], function (err, res) {
+    con.query("UPDATE clientOrder SET `userId` = ?, `cookId` = ?, `orderDone` = ?, `timeCooking` = ? WHERE idclientOrder = ?",
+        [order.userId, order.cookId, order.orderDone, order.timeCooking, id], function (err, res) {
         if (err) {
             console.log("error:", err);
             result(err, null)

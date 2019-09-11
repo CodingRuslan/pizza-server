@@ -17,7 +17,7 @@ exports.create_user_post = function(req, res) {
         }
     ], function (err, result) {
         if (result.length > 0) {
-            res.render('registration', { title: 'registration', message: `Пользователь с таким именем уже существует`} );
+            res.send(`Пользователь с таким именем уже существует`);
         } else {
             req.body.password = crypto.createHash('sha256').update(req.body.password).digest('hex');
             const new_user = new User(req.body);
@@ -29,8 +29,7 @@ exports.create_user_post = function(req, res) {
                 User.createUser(new_user, function (err, user) {
 
                     if (err){res.send(err)}
-                    // res.json(user);
-                    res.render('registration', { title: 'registration', message: `Вы зарегистрированы`} );
+                    res.json(user);
                 });
             }
         }
@@ -51,13 +50,13 @@ exports.login_user_post = function(req, res) {
         }
     ], function (err, result) {
         if (result.length < 1) {
-            res.render('login', { title: 'login', message: `Неправильный логин или пароль`} );
+            res.send('Неправильный логин или пароль');
         } else if(crypto.createHash('sha256').update(req.body.password).digest('hex') === result[0].pass) {
             let cookies = new Cookies(req, res, {keys: COOKIES_KEY});
             cookies.set('token', result[0].token, {signed: true});
-            res.redirect('/');
+            res.json(result[0].idusers);
         } else {
-            res.render('login', { title: 'login', message: `Неправильный логин или пароль`} );
+            res.send(`Неправильный логин или пароль`);
         }
     });
 };

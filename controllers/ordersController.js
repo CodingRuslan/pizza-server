@@ -27,13 +27,12 @@ exports.create_order_post = function(req, res) {
 
             if (err){res.send(err)}
             // res.json(order);
-            res.render('orderCreate', { title: 'ordersCreate', message: `Заказ добавлен. Добавление заказа в базу`} );
+            res.send(`Ваш заказ в обработке. Ваш номер ${order}`);
         });
     }
 };
 
 exports.read_a_order = function(req, res) {
-    console.log(req.params)
     Order.getOrderById(req.params.idclientOrder, function(err, order) {
         if (err)
             res.send(err);
