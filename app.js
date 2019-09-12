@@ -41,7 +41,7 @@ app.use('/neworder', newOrderRouter);
 app.use('/orders', orderRouter);
 app.use('/orderingredient', orderIngredientRouter);
 
-app.use(verifyAuthorization);
+// app.use(verifyAuthorization);
 
 
 // app.use('/clients', clientsRouter);

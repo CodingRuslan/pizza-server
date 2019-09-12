@@ -1,14 +1,13 @@
 const async = require('async');
 const con = require('../db');
 
-exports.orderHandler = function(req, res, next) {
-    if (req.length < 1) {console.log('make an order'); return}
+exports.orderHandler = (req, res, next) =>  {
+    if (req.length < 1) {console.log('you should make a order'); return}
     async.waterfall([
         function(callback) {
             let resTime = 0;
-            //console.log(req.join(','));
             con.query("SELECT * FROM ingredients\n" +
-                `where idingredients IN (${req.join(',')})`, (err, result) => {
+                `where idingredients IN (${req.cartItems.join(',')})`, (err, result) => {
                 result.forEach((e) => {
                     resTime += e.timeCook;
                 });
@@ -16,22 +15,25 @@ exports.orderHandler = function(req, res, next) {
             });
 
         },
-        function (arg, callback) {
-            con.query("INSERT INTO `pizzadb`.`clientOrder` (`clientId`, `cookId`, `orderDone`, `timeCooking`) " +
-                `VALUES ('1', '1', '0', '${arg}');`, (err, result) => {
-                //console.log(result);
-                callback(null, arg);
+        function (resTime, callback) {
+            con.query("INSERT INTO `pizzadb`.`clientOrder` (`userId`, `cookId`, `orderDone`, `timeCooking`) " +
+                `VALUES ('${req.userId}', '1', '0', '${resTime}');`, (err, result) => {
+                req.cartItems.forEach((e) => {
+                    con.query("INSERT INTO clientIngredients (orderId, ingredientId) VALUES (?, ?)", [result.insertId, e])
+                });
+
+                callback(null, [result.insertId, resTime]);
             })
         }
     ],
     // optional callback
 function(err, results) {
         setTimeout(() => {
-            console.log('Order is ready');
-            con.query("UPDATE `pizzadb`.`clientOrder` SET `orderDone` = '1' WHERE (`clientId` = '1');");
-            return res.send('1 заказ готов')
-        }, results * 1000);
-        console.log(results);
+            console.log(`Order ${results[0]} is ready`);
+            con.query("UPDATE `pizzadb`.`clientOrder` SET `orderDone` = '1' WHERE (`idclientOrder` = ?);", results[0]);
+
+            return res.json(results[0])
+        }, results[1] * 1000);
     });
 
 };
