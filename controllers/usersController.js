@@ -29,7 +29,7 @@ exports.create_user_post = function(req, res) {
                 User.createUser(new_user, function (err, user) {
 
                     if (err){res.send(err)}
-                    res.json(user);
+                    res.send('Вы зарегистрированы');
                 });
             }
         }
@@ -50,13 +50,13 @@ exports.login_user_post = function(req, res) {
         }
     ], function (err, result) {
         if (result.length < 1) {
-            res.send('Неправильный логин или пароль');
+            res.end();
         } else if(crypto.createHash('sha256').update(req.body.password).digest('hex') === result[0].pass) {
             let cookies = new Cookies(req, res, {keys: COOKIES_KEY});
             cookies.set('token', result[0].token, {signed: true});
-            res.json(result[0].idusers);
+            res.json(result[0]);
         } else {
-            res.send(`Неправильный логин или пароль`);
+            res.end()
         }
     });
 };

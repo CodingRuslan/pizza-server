@@ -16,12 +16,14 @@ exports.orderHandler = (req, res, next) =>  {
 
         },
         function (resTime, callback) {
+            let valStr ="INSERT INTO clientIngredients (orderId, ingredientId) VALUES ";
             con.query("INSERT INTO `pizzadb`.`clientOrder` (`userId`, `cookId`, `orderDone`, `timeCooking`) " +
                 `VALUES ('${req.userId}', '1', '0', '${resTime}');`, (err, result) => {
                 req.cartItems.forEach((e) => {
-                    con.query("INSERT INTO clientIngredients (orderId, ingredientId) VALUES (?, ?)", [result.insertId, e])
+                    valStr += `(${result.insertId}, ${e}),`;
                 });
 
+                con.query(valStr.substring(0, valStr.length - 1));
                 callback(null, [result.insertId, resTime]);
             })
         }

@@ -33,11 +33,11 @@ exports.create_order_post = function(req, res) {
 };
 
 exports.read_a_order = function(req, res) {
-    Order.getOrderById(req.params.idclientOrder, function(err, order) {
+    Order.getOrderById(req.params.userId, function(err, order) {
         if (err)
             res.send(err);
-        // res.json(order);
-        res.render('orderOptions', {title: 'orderInfo', message: "Инфо заказа", id:req.params.idclientOrder, info: order})
+        res.json(order);
+        // res.render('orderOptions', {title: 'orderInfo', message: "Инфо заказа", id:req.params.idclientOrder, info: order})
     });
 };
 

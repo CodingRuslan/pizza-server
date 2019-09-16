@@ -33,8 +33,8 @@ Order.getAllOrder = function (result) {
 
     });
 };
-Order.getOrderById = function(orderId, result) {
-    con.query("Select * from clientOrder where idclientOrder = ?", orderId, function (err, res) {
+Order.getOrderById = function(userId, result) {
+    con.query("Select * from clientOrder where userId = ?", userId, function (err, res) {
         if (err) {
             console.log("error", err);
             result(err, null);

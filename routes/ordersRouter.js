@@ -8,7 +8,7 @@ router.get('/', order_controller.index);
 router.get('/create', order_controller.create_order_get);
 router.post('/create', order_controller.create_order_post);
 
-router.get('/:idclientOrder', order_controller.read_a_order);
+router.get('/:userId', order_controller.read_a_order);
 
 router.get('/:idclientOrder/update', order_controller.update_order_get);
 router.post('/:idclientOrder/update', order_controller.update_order_post);
