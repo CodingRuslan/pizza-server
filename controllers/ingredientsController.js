@@ -36,8 +36,8 @@ exports.read_a_ingredient = function(req, res) {
     Ingredient.getIngredientById(req.params.idingredients, function(err, ingredient) {
         if (err)
             res.send(err);
-        // res.json(ingredient);
-        res.render('ingredientOptions', {title: 'ingredientInfo', message: "Инфо ингредиента", id:req.params.idingredients, info: ingredient})
+        res.json(ingredient);
+        // res.render('ingredientOptions', {title: 'ingredientInfo', message: "Инфо ингредиента", id:req.params.idingredients, info: ingredient})
     });
 };
 

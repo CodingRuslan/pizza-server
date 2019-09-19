@@ -4,6 +4,6 @@ const order_ingredient_controller = require('../controllers/orderIngredientContr
 
 router.post('/create', order_ingredient_controller.create_order_ingredient_post);
 
-router.get('/:idorderingredient', order_ingredient_controller.read_a_order_ingredient);
+router.get('/:orderId', order_ingredient_controller.read_a_order_ingredient);
 
 module.exports = router;

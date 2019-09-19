@@ -18,13 +18,17 @@ OrderIngredient.createOrderIngredient = function (neworderIngredient, result) {
 };
 
 
-OrderIngredient.getOrderIngredientById = function(orderIngredientId, result) {
-	con.query("Select * from clientIngredients where idclientIngredients = ?", orderIngredientId, function (err, res) {
+OrderIngredient.getOrderIngredientById = function(orderId, result) {
+	con.query("Select * from clientIngredients where orderId = ?", orderId, function (err, res) {
 		if (err) {
 			console.log("error", err);
 			result(err, null);
 		} else {
-			result(null, res)
+			let ingredientList = res.map((e) => {
+				return e.ingredientId
+			});
+			// console.log(ingredientList);
+			result(null, ingredientList)
 		}
 	});
 };
