@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+const Order = require('../models/orderModel');
 /**
  * Module dependencies.
  */
@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('pizzaex:server');
 var http = require('http');
+
 
 /**
  * Get port from environment and store in Express.
@@ -24,6 +25,22 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+const io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+  console.log('user is connected');
+  socket.on('submitOrder', (id) => {
+    console.log('Make order', id);
+    Order.getOrderById(id, function(err, order) {
+      if (err)
+        res.send(err);
+
+      setTimeout(() => {
+        io.emit('orderIsReady', id);
+      }, order[0].timeCooking * 1000);
+    });
+  });
+});
 
 server.listen(port);
 server.on('error', onError);

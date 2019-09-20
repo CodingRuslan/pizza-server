@@ -33,7 +33,7 @@ exports.create_order_post = function(req, res) {
 };
 
 exports.read_a_order = function(req, res) {
-    Order.getOrderById(req.params.userId, function(err, order) {
+    Order.getOrderByUserId(req.params.userId, function(err, order) {
         if (err)
             res.send(err);
         res.json(order);

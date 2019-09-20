@@ -33,7 +33,7 @@ Order.getAllOrder = function (result) {
 
     });
 };
-Order.getOrderById = function(userId, result) {
+Order.getOrderByUserId = function(userId, result) {
     con.query("Select * from clientOrder where userId = ?", userId, function (err, res) {
         if (err) {
             console.log("error", err);
@@ -43,6 +43,18 @@ Order.getOrderById = function(userId, result) {
         }
     });
 };
+
+Order.getOrderById = function(idclientOrder, result) {
+    con.query("Select * from clientOrder where idclientOrder = ?", idclientOrder, function (err, res) {
+        if (err) {
+            console.log("error", err);
+            result(err, null);
+        } else {
+            result(null, res)
+        }
+    });
+};
+
 Order.updateById = function (id, order, result) {
     con.query("UPDATE clientOrder SET `userId` = ?, `cookId` = ?, `orderDone` = ?, `timeCooking` = ? WHERE idclientOrder = ?",
         [order.userId, order.cookId, order.orderDone, order.timeCooking, id], function (err, res) {
@@ -54,6 +66,18 @@ Order.updateById = function (id, order, result) {
         }
     });
 };
+
+Order.updateStatusOrder = (id, result) =>  {
+    con.query("UPDATE `pizzadb`.`clientOrder` SET `orderDone` = '1' WHERE (`idclientOrder` = ?);", id, (err, res) => {
+        if (err) {
+            console.log("error:", err);
+            result(err, null)
+        } else {
+            result(null, res);
+        }
+    });
+};
+
 Order.remove = function(id, result){
     con.query("DELETE FROM clientOrder WHERE idclientOrder = ?", [id], function (err, res) {
 
