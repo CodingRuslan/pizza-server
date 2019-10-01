@@ -9,7 +9,6 @@ const COOKIES_KEY = ["This is cookies key"];
 
 const indexRouter = require('./routes/index');
 const newOrderRouter = require('./routes/newOrder');
-// const clientsRouter = require('./routes/clientsRouter');
 const cookRouter = require('./routes/cookRouter');
 const orderRouter = require('./routes/ordersRouter');
 const ingredientRouter = require('./routes/ingredientRouter');
@@ -40,12 +39,9 @@ app.use('/ingredients', ingredientRouter);
 app.use('/neworder', newOrderRouter);
 app.use('/orders', orderRouter);
 app.use('/orderingredient', orderIngredientRouter);
+app.use('/cooks', cookRouter);
 
 // app.use(verifyAuthorization);
-
-
-// app.use('/clients', clientsRouter);
-app.use('/cooks', cookRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
